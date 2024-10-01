@@ -135,7 +135,10 @@ With the above command you can set up fail2ban.
 
 ### Wireshark
 
-With Wireshark we can view how all of this work. For those who don't now Wireshark is the most used packet analyzer. So open wireshark, on the application you have to choose the network interface you want to listen. Then you have to specify that you want to listen to the correct SSH session : **tcp.port == 2222** you can enter this in the filter on the top of the screen. Start the packet capture by clicking the green button, then we need to create trafic in our SSH session, so we connect to it then execute a few command. After doing this we can now analyze the result that appear on Wireshark, we can see the protocol of each packet, also the SYN and ACK and the SSH packet **but** the are crypted that's we we use SSH and not FTP (who display clear text).
+With Wireshark we can view how all of this work. For those who don't now Wireshark is the most used packet analyzer. So open wireshark, on the application you have to choose the network interface you want to listen. Then you have to specify that you want to listen to the correct SSH session : **tcp.port == 2222** you can enter this in the filter on the top of the screen. Start the packet capture by clicking the green button, then we need to create trafic in our SSH session, so we connect to it then execute a few command.
+
+After doing this we can now analyze the result that appear on Wireshark, we can see the protocol of each packet, also the SYN and ACK and the SSH packet **but** the are crypted that's we we use SSH and not FTP (who display clear text).
+
 We also can try fail2ban test to fail connect and see if the IP get blocked. The result will appear in Wireshark too.
 
 ## Problematic
