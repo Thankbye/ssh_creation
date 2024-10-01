@@ -154,4 +154,16 @@ We also can try fail2ban test to fail connect and see if the IP get blocked. The
 
 ## Problematic <a name="problematic"></a>
 
+Now for educational purpose i'm gonna explain certain problematic I encounter. 
+
+First of all the first server I work on was a small server that the teacher give to the class, so the first problem was to cause trouble on the server, I have a little adance so when it was the time to change the orignal port I do it **but** after it change the default port for everyone so they all get kicked from the server. So take care of with file you are editing
+
+To not let this happen again I choose to "create" my own server, so I start a VPN and start an SSH session on the tun0 adress, create an other user to test some feature with. After doing this I made the full TP with my two user and do all the test. 
+
+The last problem was when i try wireshark, cause i was on a VM, the app didn't found the packet so I work on this purelly theoretically.
+
+That's all for me. 
+
+Thanks for reading.
+
 
