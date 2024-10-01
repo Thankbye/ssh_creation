@@ -10,7 +10,7 @@ SSH replaces **FTP** (File Transfer Protocol) because it offers enhanced securit
 
 To connect to an existant SSH session we need to use this command : 
 
-    > ssh user@IP
+> ssh user@IP
 
 When you type this SSH will ask you if you want to add this to **know_hosts**, it ask you this to store the IP of the server, this will ensure a more secure session. After that it will ask you your password then you will be connected
 
@@ -20,23 +20,23 @@ When you type this SSH will ask you if you want to add this to **know_hosts**, i
 
 We can generate a pair of SSH keys to secure way more our session, in the pair there is a priviate keys (**id_rsa**) and a public key (**id_rsa.pub**). We can create the key with this:
 
-    > ssh-keygen -t ed25519
+> ssh-keygen -t ed25519
 
 **ed25519** is an algorithm we can use another if you know or prefer other. After doing this we send the public key to the SSH session, it is essential so the private key can identify to the public key, this is the command that we use :
 
-    > ssh-copy-id user@IP
+> ssh-copy-id user@IP
 
 #### Disable the password authentification
 
 We can secure way more our server by disable the password authentification, you gonna tell me that remove the password is not that secure **BUT** we gonna change this by a *passphrase* it's way more secure than a password cause if a hacker found its it will not know the passphrase so you server will be safe. To disable the password authentification we need to edit the **sshd_config** :
 
-    > sudo nano /etc/ssh/sshd_config
-    > PasswordAuthentification no
+> sudo nano /etc/ssh/sshd_config
+>> PasswordAuthentification no
 
 You have to found the PasswordAuthentification line then **uncomment** the line and type **no** instead of **yes**
 Then you have to restard the SSH service to apply the change :
 
-    > sudo systemctl restart ssh
+> sudo systemctl restart ssh
 
 ### Files transfer, SCP and SFTP
 
@@ -44,8 +44,8 @@ Then you have to restard the SSH service to apply the change :
 
 Now we have to see how to send files between machines, we gonna try with SCP. First we need to crate a file then we can use SCP: 
 
-    > echo "This is a test file" > file.txt
-    > scp file.txt user@IP:/path/to/repositori
+> echo "This is a test file" > file.txt
+> scp file.txt user@IP:/path/to/repositori
 
 After you can check on the server if the file is well arrived.
 
