@@ -31,6 +31,7 @@ We can generate a pair of SSH keys to secure way more our session, in the pair t
 We can secure way more our server by disable the password authentification, you gonna tell me that remove the password is not that secure **BUT** we gonna change this by a *passphrase* it's way more secure than a password cause if a hacker found its it will not know the passphrase so you server will be safe. To disable the password authentification we need to edit the **sshd_config** :
 
 > sudo nano /etc/ssh/sshd_config
+> 
 >> PasswordAuthentification no
 
 You have to found the PasswordAuthentification line then **uncomment** the line and type **no** instead of **yes**
@@ -45,6 +46,7 @@ Then you have to restard the SSH service to apply the change :
 Now we have to see how to send files between machines, we gonna try with SCP. First we need to crate a file then we can use SCP: 
 
 > echo "This is a test file" > file.txt
+> 
 > scp file.txt user@IP:/path/to/repositori
 
 After you can check on the server if the file is well arrived.
@@ -54,6 +56,7 @@ After you can check on the server if the file is well arrived.
 The only difference between SCP and SFTP is that SFTP have a error handling option that can help have a better view of the problem if the file transfer interrupt and if this is the case we can resume the transfer directly. 
 
 > sftp user@IP
+> 
 > put file.txt
 
 With the command above we can send a file from our local machine to the distant server, this command only work in a SFTP session.
