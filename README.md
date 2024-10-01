@@ -33,7 +33,38 @@ We can secure way more our server by disable the password authentification, you 
     > sudo nano /etc/ssh/sshd_config
     >PasswordAuthentification no
 
-You have to found the PasswordAuthentification line **uncomment** the line and type **no** instead of **yes**
+You have to found the PasswordAuthentification line then **uncomment** the line and type **no** instead of **yes**
 Then you have to restard the SSH service to apply the change :
 
     > sudo systemctl restart ssh
+
+### Files transfer, SCP and SFTP
+
+#### SCP
+
+Now we have to see how to send files between machines, we gonna try with SCP. First we need to crate a file then we can use SCP: 
+
+    > echo "This is a test file" > file.txt
+    > scp file.txt user@IP:/path/to/repositori
+
+After you can check on the server if the file is well arrived.
+
+#### SFTP
+
+The only difference between SCP and SFTP is that SFTP have a error handling option that can help have a better view of the problem if the file transfer interrupt and if this is the case we can resume the transfer directly. 
+
+    > sftp user@IP
+    > put file.txt
+
+With the command above we can send a file from our local machine to the distant server, this command only work in a SFTP session.
+
+### SSH Tunnels and Forwarding Port
+
+#### Tunnels
+
+An SSH tunnel is a secure way to connect to a remote server, allowing you to forward ports between your local machine and that server. In this case, you're setting up a tunnel to redirect local port 8080 to port 80 on a remote server.
+Here's how it works: 
+    
+- Port Forwarding: This feature of SSH allows you to redirect network traffic from one port to another.
+
+- Local Port Forwarding: When you set up local port forwarding, you can connect to a specific port on your local machine, and it will forward that traffic to a designated port on a remote server.
