@@ -1,12 +1,23 @@
 # The SSH Protocol
 
-## Introduction
+## Summary
+
+1. [Introduction](#intro)
+2. [Setting UP](#setting)
+3. [SSH Keys](#keys)
+4. [Files transfer, SCP and SFTP](#scp)
+5. [SSH Tunnels and Port Forwarding](#tunnels)
+6. [Fail2Ban](#fail2ban)
+7. [Wireshark](#wireshark)
+8. [Problematic](#problematic)
+
+## Introduction <a name="intro"></a>
 
 **SSH**, or Secure Shell, is a cryptographic network protocol used to securely access and manage devices over an unsecured network. It provides strong authentication and encrypted data communications, making it ideal for remote administration and file transfers.
 
 SSH replaces **FTP** (File Transfer Protocol) because it offers enhanced security features. While FTP transmits data in plain text, making it vulnerable to eavesdropping, SSH encrypts the entire session, protecting sensitive information. Additionally, SSH supports secure file transfers through protocols like SFTP (SSH File Transfer Protocol), making it a more secure and versatile choice for managing files and systems remotely.
 
-## Setting Up
+## Setting Up <a name="setting"></a>
 
 To connect to an existant SSH session we need to use this command : 
 
@@ -14,7 +25,7 @@ To connect to an existant SSH session we need to use this command :
 
 When you type this SSH will ask you if you want to add this to **know_hosts**, it ask you this to store the IP of the server, this will ensure a more secure session. After that it will ask you your password then you will be connected
 
-## SSH Keys
+## SSH Keys <a name="keys"></a>
 
 #### Generate the keys
 
@@ -39,9 +50,9 @@ Then you have to restard the SSH service to apply the change :
 
 > sudo systemctl restart ssh
 
-### Files transfer, SCP and SFTP
+## Files transfer, SCP and SFTP <a name="scp"></a>
 
-#### SCP
+### SCP
 
 Now we have to see how to send files between machines, we gonna try with SCP. First we need to crate a file then we can use SCP: 
 
@@ -51,7 +62,7 @@ Now we have to see how to send files between machines, we gonna try with SCP. Fi
 
 After you can check on the server if the file is well arrived.
 
-#### SFTP
+### SFTP
 
 The only difference between SCP and SFTP is that SFTP have a error handling option that can help have a better view of the problem if the file transfer interrupt and if this is the case we can resume the transfer directly. 
 
@@ -61,9 +72,9 @@ The only difference between SCP and SFTP is that SFTP have a error handling opti
 
 With the command above we can send a file from our local machine to the distant server, this command only work in a SFTP session.
 
-### SSH Tunnels and Port Forwarding
+## SSH Tunnels and Port Forwarding <a name="tunnels"></a>
 
-#### Tunnels
+### Tunnels
 
 An SSH tunnel is a secure way to connect to a remote server, allowing you to forward ports between your local machine and that server. In this case, you're setting up a tunnel to redirect local port 8080 to port 80 on a remote server.
 Here's how it works: 
@@ -84,7 +95,7 @@ Here is the command we use:
 
 Then you can go on the navigator to open the application on the local port : **http://localhost:8080**
 
-#### Port Forwarding
+### Port Forwarding
 
 The goal of this operation is to reduce brute-force automatic attack by changing the default port. We gonna put a firewall too for a more secure connection.
 First of all we have to be connected to the SSH session then we need to make change in a file:
@@ -97,7 +108,7 @@ We found the line **Port** uncomment it then change the default port (22) to ano
 
 > ssh -p 2222 user@IP
 
-#### Firewall
+### Firewall
 
 We gonna use UFW.
 Configuring UFW to allow SSH connections only on a non-standard port like 2222 enhances your server's security by reducing exposure to automated attacks. It’s a simple but effective way to bolster your overall defense strategy.
@@ -115,7 +126,7 @@ I'm gonna list all the command you need to set up a UFW to secure your sever by 
 
 Now if you try to connect without the **-p 2222** the connection is refused.
 
-### Fail2Ban
+## Fail2Ban <a name="fail2ban"></a>
 
 In the same spirit as the forwarding port Fail2Ban is a tool to protect from brute force attack by blocking the IP who made to many try to connect.
 
@@ -133,7 +144,7 @@ In the same spirit as the forwarding port Fail2Ban is a tool to protect from bru
 
 With the above command you can set up fail2ban.
 
-### Wireshark
+## Wireshark <a name="wireshark"></a>
 
 With Wireshark we can view how all of this work. For those who don't now Wireshark is the most used packet analyzer. So open wireshark, on the application you have to choose the network interface you want to listen. Then you have to specify that you want to listen to the correct SSH session : **tcp.port == 2222** you can enter this in the filter on the top of the screen. Start the packet capture by clicking the green button, then we need to create trafic in our SSH session, so we connect to it then execute a few command.
 
@@ -141,6 +152,6 @@ After doing this we can now analyze the result that appear on Wireshark, we can 
 
 We also can try fail2ban test to fail connect and see if the IP get blocked. The result will appear in Wireshark too.
 
-## Problematic
+## Problematic <a name="problematic"></a>
 
 
