@@ -61,7 +61,7 @@ The only difference between SCP and SFTP is that SFTP have a error handling opti
 
 With the command above we can send a file from our local machine to the distant server, this command only work in a SFTP session.
 
-### SSH Tunnels and Forwarding Port
+### SSH Tunnels and Port Forwarding
 
 #### Tunnels
 
@@ -71,3 +71,73 @@ Here's how it works:
 - Port Forwarding: This feature of SSH allows you to redirect network traffic from one port to another.
 
 - Local Port Forwarding: When you set up local port forwarding, you can connect to a specific port on your local machine, and it will forward that traffic to a designated port on a remote server.
+
+In your case:
+
+- Local Port (8080): This is the port on your local machine where you will send requests.
+
+- Remote Port (80): This is the port on the remote server that usually serves web traffic (HTTP).
+
+Here is the command we use: 
+
+> ssh -L 8080:localhost80 user@IP
+
+Then you can go on the navigator to open the application on the local port : **http://localhost:8080**
+
+#### Port Forwarding
+
+The goal of this operation is to reduce brute-force automatic attack by changing the default port. We gonna put a firewall too for a more secure connection.
+First of all we have to be connected to the SSH session then we need to make change in a file:
+
+> sudo nano /etc/ssh/sshd_config
+>
+>> Port 2222
+
+We found the line **Port** uncomment it then change the default port (22) to another port we want, for the exercise we chose 2222. After you have to restart the SSH server with the same command in the **Disable Password** part. To connect to the new port you have to specify it on the command : 
+
+> ssh -p 2222 user@IP
+
+#### Firewall
+
+We gonna use UFW.
+Configuring UFW to allow SSH connections only on a non-standard port like 2222 enhances your server's security by reducing exposure to automated attacks. It’s a simple but effective way to bolster your overall defense strategy.
+I'm gonna list all the command you need to set up a UFW to secure your sever by only accept the entry of 2222 port, you need to install the firewall directly on the server : 
+
+> sudo apt install ufw
+>
+> sudo ufw allow 2222/tcp
+>
+> sudo ufw deny 22/tcp
+>
+> sudo ufw enable
+>
+> sudo ufw status
+
+Now if you try to connect without the **-p 2222** the connection is refused.
+
+### Fail2Ban
+
+In the same spirit as the forwarding port Fail2Ban is a tool to protect from brute force attack by blocking the IP who made to many try to connect.
+
+> sudo apt install fail2ban
+>
+> sudo nano /etc/fail2ban/jail.local
+>
+>> [sshd]
+>> 
+>> enable = true
+>> 
+>> port = 2222
+>>
+> sudo systemctl restart fail2ban
+
+With the above command you can set up fail2ban.
+
+### Wireshark
+
+With Wireshark we can view how all of this work. For those who don't now Wireshark is the most used packet analyzer. So open wireshark, on the application you have to choose the network interface you want to listen. Then you have to specify that you want to listen to the correct SSH session : **tcp.port == 2222** you can enter this in the filter on the top of the screen. Start the packet capture by clicking the green button, then we need to create trafic in our SSH session, so we connect to it then execute a few command. After doing this we can now analyze the result that appear on Wireshark, we can see the protocol of each packet, also the SYN and ACK and the SSH packet **but** the are crypted that's we we use SSH and not FTP (who display clear text).
+We also can try fail2ban test to fail connect and see if the IP get blocked. The result will appear in Wireshark too.
+
+## Problematic
+
+
