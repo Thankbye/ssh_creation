@@ -3,7 +3,7 @@
 ## Summary
 
 1. [Introduction](#intro)
-2. [Setting UP](#setting)
+2. [Set UP](#set)
 3. [SSH Keys](#keys)
 4. [Files transfer, SCP and SFTP](#scp)
 5. [SSH Tunnels and Port Forwarding](#tunnels)
@@ -13,23 +13,23 @@
 
 ## Introduction <a name="intro"></a>
 
-**SSH**, or Secure Shell, is a cryptographic network protocol used to securely access and manage devices over an unsecured network. It provides strong authentication and encrypted data communications, making it ideal for remote administration and file transfers.
+**SSH**, or Secure Shell, is a cryptographic network protocol used to securely access and manage devices over an unsecured network. It provides strong authentication and encrypted data communications, making it ideal for remote administration and file transfer.
 
-SSH replaces **FTP** (File Transfer Protocol) because it offers enhanced security features. While FTP transmits data in plain text, making it vulnerable to eavesdropping, SSH encrypts the entire session, protecting sensitive information. Additionally, SSH supports secure file transfers through protocols like SFTP (SSH File Transfer Protocol), making it a more secure and versatile choice for managing files and systems remotely.
+SSH is replacing **FTP** (File Transfer Protocol) because it offers enhanced security features. While FTP transmits data in clear text, making it vulnerable to eavesdropping, SSH encrypts the entire session, protecting sensitive information. In addition, SSH supports secure file transfers through protocols like SFTP (SSH File Transfer Protocol), making it a more secure and versatile choice for remote files and systems management.
 
-## Setting Up <a name="setting"></a>
+## Set Up <a name="set"></a>
 
-To connect to an existant SSH session we need to use this command : 
+To connect to an existing SSH session we need to use this command : 
 
 > ssh user@IP
 
-When you type this SSH will ask you if you want to add this to **know_hosts**, it ask you this to store the IP of the server, this will ensure a more secure session. After that it will ask you your password then you will be connected
+When you type this SSH will ask you if you want to add this to **know_hosts**, it will ask you this to store the IP of the server, this will ensure a more secure session. It will then ask you for your password and you will be connected
 
 ## SSH Keys <a name="keys"></a>
 
 #### Generate the keys
 
-We can generate a pair of SSH keys to secure way more our session, in the pair there is a priviate keys (**id_rsa**) and a public key (**id_rsa.pub**). We can create the key with this:
+We can generate a pair of SSH keys to make way our session much more secure, in the pair there is a private key (**id_rsa**) and a public key (**id_rsa.pub**). We can generate the key with this:
 
 > ssh-keygen -t ed25519
 
@@ -37,13 +37,13 @@ We can generate a pair of SSH keys to secure way more our session, in the pair t
 
 > ssh-copy-id user@IP
 
-#### Disable the password authentification
+#### Disable the password authentication
 
-We can secure way more our server by disable the password authentification, you gonna tell me that remove the password is not that secure **BUT** we gonna change this by a *passphrase* it's way more secure than a password cause if a hacker found its it will not know the passphrase so you server will be safe. To disable the password authentification we need to edit the **sshd_config** :
+We can secure way more our server by disabling the password authentication, you gonna tell me that removing the password is not that secure **BUT** we gonna change this by a *passphrase* it's way more secure than a password cause if a hacker found its it will not know the passphrase so you server will be safe. To disable the password authentication we need to edit the **sshd_config** :
 
 > sudo nano /etc/ssh/sshd_config
 > 
->> PasswordAuthentification no
+>> PasswordAuthentication no
 
 You have to found the PasswordAuthentification line then **uncomment** the line and type **no** instead of **yes**
 Then you have to restard the SSH service to apply the change :
